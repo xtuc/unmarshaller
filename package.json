@@ -25,7 +25,8 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "build": "babel src --out-dir lib --copy-files"
+    "build": "babel src --out-dir lib --copy-files",
+    "prepublish": "npm run build"
   },
   "author": "Sven SAULEAU",
   "license": "ISC"
