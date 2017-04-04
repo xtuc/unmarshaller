@@ -1,0 +1,9 @@
+[ignore]
+.*/lib/.*
+
+[include]
+
+[libs]
+src/types.js
+
+[options]
