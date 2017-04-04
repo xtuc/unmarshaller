@@ -5,7 +5,7 @@
 ## Example
 
 ```js
-import {builder, unmarshal} from './src';
+import {builder, unmarshal} from 'unmarshaller';
 
 const unmarshaller = {
   editor: builder.string('EDITOR'),
