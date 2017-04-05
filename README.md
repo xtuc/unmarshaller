@@ -37,3 +37,41 @@ Just an object which represent your configuration.
 ### Builder
 
 Helper functions to build the unmarshaller object.
+
+#### Default types
+
+| type    |
+|---------|
+| string  |
+| boolean |
+| number  |
+| object  |
+| holder  |
+
+#### Default options
+
+|name|type|description|
+|----|----|-----------|
+|defaultValue|string|fallback value if the lookup returned `undefined` or `null`|
+|of|array|provide an enumeration of possible values|  fallbacks to `defaultValue` and `null`.|
+
+### Extending the default builder
+
+The builder is a regular JavaScript object.
+
+Customizing the builder gives you the possiblity to use your own data converters.
+
+The following example use a custom type: `color` (which in my use case parses a string into a structure).
+
+```js
+import {builder as defaultBuilder} from 'unmarshaller';
+
+export const builder = {
+  ...defaultBuilder,
+  color: (name, options) => ({
+    name,
+    type: 'color',
+    ...options
+  }),
+};
+```
