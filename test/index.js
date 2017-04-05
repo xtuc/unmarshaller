@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {unmarshal, builder, castIntoType} from '../src';
+import {unmarshal, builder, castIntoType} from '../lib/index';
 
 function createLookupFn(params = {}) {
   return (name) => params[name];

@@ -1,7 +1,15 @@
 {
+  "presets": [
+    "es2015"
+  ],
   "plugins": [
     "transform-flow-strip-types",
     "transform-object-rest-spread",
     ["transform-es2015-modules-commonjs",{loose: true}],
-  ]
+  ],
+  "env": {
+    "production": {
+      "presets": ["babili"]
+    }
+  }
 }
