@@ -72,8 +72,12 @@ export const builder = {
   ...defaultBuilder,
   color: (name, options) => ({
     name,
+    parser: parseColor,
     type: 'color',
     ...options
   }),
 };
 ```
+
+You need to provide a custom parser function (`parseColor` in the example above).
+The definition is: `function(value: string): string`.
