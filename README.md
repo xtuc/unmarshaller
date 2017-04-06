@@ -2,6 +2,8 @@
 
 > Toolbox for configuration
 
+[![Build Status](https://travis-ci.org/xtuc/unmarshaller.svg?branch=master)](https://travis-ci.org/xtuc/unmarshaller)
+
 ## Example
 
 ```js
