@@ -43,7 +43,7 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
   const keys = Object.keys(unmarshaller);
 
   const res = keys.reduce((acc, key) => {
-    const {name, type, defaultValue, children, of} = unmarshaller[key];
+    const {parser, name, type, defaultValue, children, of} = unmarshaller[key];
     const value = lookupFn(name);
 
     if (type === 'holder') {
@@ -52,7 +52,12 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
     }
 
     if (value !== undefined && value !== null) {
-      acc[key] = castIntoType(type, value);
+
+      if (parser) {
+        acc[key] = parser(value);
+      } else {
+        acc[key] = castIntoType(type, value);
+      }
     } else if (defaultValue !== undefined && defaultValue !== null) {
       acc[key] = defaultValue;
     }

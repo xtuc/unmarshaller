@@ -198,6 +198,33 @@ describe('config', () => {
       assert.equal(config.nullValueDefaultToTrue, true);
     });
 
+    describe('parser', () => {
+
+      it('should use a custom parser', () => {
+        let called = false;
+
+        const lookupFn = createLookupFn({
+          foo: 'bar'
+        });
+
+        const parser = (value) => {
+          assert.equal(value, 'bar');
+          called = true;
+
+          return 'test';
+        };
+
+        const unmarshaller = {
+          foo: builder.string('foo', {parser})
+        };
+
+        const config = unmarshal(lookupFn, unmarshaller);
+
+        assert.equal(config.foo, 'test');
+        assert.isTrue(called);
+      });
+    });
+
     describe('enumerations', () => {
 
       it('should use enum to validate value', () => {
