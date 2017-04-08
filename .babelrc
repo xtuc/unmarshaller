@@ -9,7 +9,9 @@
   ],
   "env": {
     "production": {
-      "presets": ["babili"]
+      "presets": [["babili", {
+        "mangle": false
+      }]]
     }
   }
 }
