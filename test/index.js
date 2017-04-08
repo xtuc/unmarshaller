@@ -198,6 +198,23 @@ describe('config', () => {
       assert.equal(config.nullValueDefaultToTrue, true);
     });
 
+    it('should throw an error for invalid lookupFn', () => {
+      const lookupFn = 'foo';
+
+      const fn = () => unmarshal(lookupFn, {});
+
+      assert.throws(fn, /lookupFn must be a function, string given/);
+    });
+
+    it('should throw an error for invalid unmarshaller', () => {
+      const lookupFn = () => {};
+      const unmarshaller = 'foo';
+
+      const fn = () => unmarshal(lookupFn, unmarshaller);
+
+      assert.throws(fn, /unmarshaller must be an object, string given/);
+    });
+
     describe('parser', () => {
 
       it('should use a custom parser', () => {
@@ -222,6 +239,23 @@ describe('config', () => {
 
         assert.equal(config.foo, 'test');
         assert.isTrue(called);
+      });
+
+      it('should throw an error invalid parser type', () => {
+        const lookupFn = createLookupFn({
+          foo: 'bar'
+        });
+
+        const parser = 'string';
+
+        const unmarshaller = {
+          foo: builder.string('foo', {parser})
+        };
+
+        const fn = () => unmarshal(lookupFn, unmarshaller);
+
+        assert.throws(fn, /parser for type string must be a function, string given/);
+
       });
     });
 
