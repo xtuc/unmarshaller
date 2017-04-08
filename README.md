@@ -34,7 +34,7 @@ const lookupFn = (key) => process.env[key];
 
 ### Unmarshaller
 
-Just an object which represent your configuration.
+Just an object which represents your configuration.
 
 ### Builder
 
