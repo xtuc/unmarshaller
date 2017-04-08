@@ -40,6 +40,14 @@ const builder: UnmarshallerBuilder = {
  * @returns {Object}
  */
 function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
+  if (typeof lookupFn !== 'function') {
+    throw new Error(`lookupFn must be a function, ${typeof lookupFn} given`);
+  }
+
+  if (typeof unmarshaller !== 'object') {
+    throw new Error(`unmarshaller must be an object, ${typeof unmarshaller} given`);
+  }
+
   const keys = Object.keys(unmarshaller);
 
   const res = keys.reduce((acc, key) => {
@@ -54,6 +62,11 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
     if (value !== undefined && value !== null) {
 
       if (parser) {
+
+        if (typeof parser !== 'function') {
+          throw new Error(`parser for type ${type} must be a function, ${typeof parser} given`);
+        }
+
         acc[key] = parser(value);
       } else {
         acc[key] = castIntoType(type, value);
