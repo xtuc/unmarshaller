@@ -1,8 +1,20 @@
-# unmarshaller
+# Unmarshaller
 
 > Toolbox for configuration
 
 [![Build Status](https://travis-ci.org/xtuc/unmarshaller.svg?branch=master)](https://travis-ci.org/xtuc/unmarshaller)
+
+## Motivations
+
+- A declarative way for defining configuration
+- Reusability and composability
+- Flexible and generic
+
+## Installation
+
+```shell
+npm install --save unmarshaller
+```
 
 ## Example
 
