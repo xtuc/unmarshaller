@@ -1,5 +1,7 @@
 # Unmarshaller
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xtuc/unmarshaller.svg)](https://greenkeeper.io/)
+
 > Toolbox for configuration
 
 [![Build Status](https://travis-ci.org/xtuc/unmarshaller.svg?branch=master)](https://travis-ci.org/xtuc/unmarshaller)
