@@ -1,5 +1,11 @@
 {
+  "scripts": {
+    "generate:readme": "unmarshaller-generator-markdown unmarshaller.js > README.md"
+  },
   "dependencies": {
     "unmarshaller": "^1.0.3"
+  },
+  "devDependencies": {
+    "unmarshaller-generator-markdown": "^0.1.0"
   }
 }
