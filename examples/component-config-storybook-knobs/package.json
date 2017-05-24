@@ -8,6 +8,6 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "unmarshaller": "^1.0.3",
-    "unmarshaller-generator-storybook-knobs": "0.1.0-alpha.ebccb3f7"
+    "unmarshaller-generator-storybook-knobs": "^0.1.1"
   }
 }
