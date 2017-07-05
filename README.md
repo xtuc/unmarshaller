@@ -72,6 +72,21 @@ Helper functions to build the unmarshaller object.
 |of|array|provide an enumeration of possible values|  fallbacks to `defaultValue` and `null`.|
 |parser|function|provide an custom parser function (usually when you want your own types)|
 
+### Extending an existing holder
+
+```js
+import {extend, builder} from 'unmarshaller';
+
+const holder = builder.holder({
+  editor: builder.string('EDITOR'),
+  browser: builder.string('BROWSER'),
+});
+
+const extendedHolder = extend(holder, {
+  version: builder.string('VERSION'),
+});
+```
+
 ### Extending the default builder
 
 The builder is a regular JavaScript object.

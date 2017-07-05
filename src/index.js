@@ -26,7 +26,7 @@ const builder: UnmarshallerBuilder = {
     type: 'object',
     ...options
   }),
-  holder: (children) => ({
+  holder: (children = {}) => ({
     children,
     type: 'holder'
   })
@@ -121,4 +121,11 @@ function castIntoType(type: string, value: any) {
   }
 }
 
-export {builder, unmarshal, castIntoType};
+function extend(initialHolder: Holder, additionalChildren: Children = {}) {
+  return builder.holder({
+    ...initialHolder.children,
+    ...additionalChildren
+  });
+}
+
+export {builder, unmarshal, castIntoType, extend};
