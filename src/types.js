@@ -3,9 +3,23 @@
 declare function LookupFunction(string): any;
 
 declare type UnmarshallerBuilder = {
-  string: (name: string, options: ?Object) => Object,
-  boolean: (name: string, options: ?Object) => Object,
-  number: (name: string, options: ?Object) => Object,
-  object: (name: string, options: ?Object) => Object,
-  holder: (children: ?UnmarshallerBuilder) => Object,
+  string: (name: string, options: ?Object) => Child,
+  boolean: (name: string, options: ?Object) => Child,
+  number: (name: string, options: ?Object) => Child,
+  object: (name: string, options: ?Object) => Child,
+  holder: (children?: Children) => Holder,
+};
+
+declare type Child = {
+  name: string,
+  options?: Object
+};
+
+declare type Holder = {
+  children: Children,
+  type: 'holder'
+};
+
+declare type Children = {
+  [string]: Child | Holder
 };

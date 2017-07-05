@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {unmarshal, builder, castIntoType} from '../lib/index';
+import {extend, unmarshal, builder, castIntoType} from '../lib/index';
 
 function createLookupFn(params = {}) {
   return (name) => params[name];
@@ -13,6 +13,57 @@ describe('config', () => {
     assert.isFunction(builder.object);
     assert.isFunction(builder.holder);
     assert.isFunction(builder.boolean);
+  });
+
+  describe('extend', () => {
+    it('should extend an existing holder', () => {
+      const holder = builder.holder({
+        test: builder.string('test'),
+      });
+
+      const additionalChildren = {
+        test1: builder.string('test1'),
+        test2: builder.boolean('test2')
+      };
+
+      const actual = extend(holder, additionalChildren);
+      const expected = builder.holder({
+        test: builder.string('test'),
+        ...additionalChildren
+      });
+
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should extend an empty holder', () => {
+      const holder = builder.holder();
+
+      const additionalChildren = {
+        test1: builder.string('test'),
+        test2: builder.boolean('test1')
+      };
+
+      const actual = extend(holder, additionalChildren);
+      const expected = builder.holder(additionalChildren);
+
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should override existing children', () => {
+      const holder = builder.holder({
+        test: builder.boolean('test'),
+      });
+
+      const additionalChildren = {
+        test: builder.string('test'),
+        test1: builder.boolean('test1')
+      };
+
+      const actual = extend(holder, additionalChildren);
+      const expected = builder.holder(additionalChildren);
+
+      assert.deepEqual(actual, expected);
+    });
   });
 
   describe('cast into type', () => {
