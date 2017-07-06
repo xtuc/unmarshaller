@@ -266,6 +266,46 @@ describe('config', () => {
       assert.throws(fn, /unmarshaller must be an object, string given/);
     });
 
+    it('`or` should retrive a value against empty string', () => {
+      const lookupFn = createLookupFn({
+        foo_a: '',
+        foo_b: null,
+        foo_c: undefined,
+        foo_d: 'foo',
+      });
+
+      const unmarshaller = {
+        foo: builder.or(
+          builder.string('foo_a'),
+          builder.string('foo_b'),
+          builder.string('foo_c'),
+          builder.string('foo_d'),
+        )
+      };
+
+      const config = unmarshal(lookupFn, unmarshaller);
+
+      assert.equal(config.foo, 'foo');
+    });
+
+    it('`or` should retrive the first value', () => {
+      const lookupFn = createLookupFn({
+        foo_a: 'bar',
+        foo_b: 'foo',
+      });
+
+      const unmarshaller = {
+        foo: builder.or(
+          builder.string('foo_a'),
+          builder.string('foo_b'),
+          )
+      };
+
+      const config = unmarshal(lookupFn, unmarshaller);
+
+      assert.equal(config.foo, 'bar');
+    });
+
     describe('parser', () => {
 
       it('should use a custom parser', () => {
@@ -306,7 +346,6 @@ describe('config', () => {
         const fn = () => unmarshal(lookupFn, unmarshaller);
 
         assert.throws(fn, /parser for type string must be a function, string given/);
-
       });
     });
 

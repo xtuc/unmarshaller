@@ -29,7 +29,11 @@ const builder: UnmarshallerBuilder = {
   holder: (children = {}) => ({
     children,
     type: 'holder'
-  })
+  }),
+  or: (...children) => ({
+    children,
+    type: 'or'
+  }),
 };
 
 /**
@@ -52,7 +56,27 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
 
   const res = keys.reduce((acc, key) => {
     const {parser, name, type, defaultValue, children, of} = unmarshaller[key];
-    const value = lookupFn(name);
+
+    let value;
+
+    if (type === 'or') {
+      value = children.reduce((acc, child) => {
+        // Shortcut to avoid calling lookupFn
+        if (acc) {
+          return acc;
+        }
+
+        const value = lookupFn(child.name);
+
+        if (value != null && value !== '') {
+          return value;
+        } else {
+          return acc;
+        }
+      }, null);
+    } else {
+      value = lookupFn(name);
+    }
 
     if (type === 'holder') {
       acc[key] = unmarshal(lookupFn, children);
@@ -115,6 +139,9 @@ function castIntoType(type: string, value: any) {
       console.error(new Error(`${value} cannot be cast into ${type}: ${e}`));
       return {};
     }
+
+  case 'or':
+    return value;
 
   default:
     throw new Error(`${value} cannot be cast into ${type}`);
