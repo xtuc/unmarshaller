@@ -63,6 +63,7 @@ Helper functions to build the unmarshaller object.
 | number  |
 | object  |
 | holder  |
+|    or   |
 
 #### Default options
 
@@ -71,6 +72,19 @@ Helper functions to build the unmarshaller object.
 |defaultValue|string|fallback value if the lookup returned `undefined` or `null`|
 |of|array|provide an enumeration of possible values|  fallbacks to `defaultValue` and `null`.|
 |parser|function|provide an custom parser function (usually when you want your own types)|
+
+### Or
+
+```js
+const unmarshaller = {
+  foo: builder.or(
+    builder.string('foo_a'),
+    builder.string('foo_b'),
+  )
+};
+```
+
+The unmarshalling process will call the lookup function until a value (not undefined or null) is returned.
 
 ### Extending an existing holder
 
