@@ -308,6 +308,32 @@ describe('config', () => {
 
     describe('parser', () => {
 
+      it('should take custom parsers into account when using an "or" holder', () => {
+        let called = false;
+
+        const lookupFn = createLookupFn({
+          foo: 'bar'
+        });
+
+        const parser = (value) => {
+          assert.equal(value, 'bar');
+          called = true;
+
+          return 'test';
+        };
+
+        const unmarshaller = {
+          foo: builder.or(
+            builder.string('foo', {parser})
+          )
+        };
+
+        const config = unmarshal(lookupFn, unmarshaller);
+
+        assert.equal(config.foo, 'test');
+        assert.isTrue(called);
+      });
+
       it('should use a custom parser', () => {
         let called = false;
 

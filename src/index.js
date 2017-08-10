@@ -37,6 +37,30 @@ const builder: UnmarshallerBuilder = {
 };
 
 /**
+ * Return the first non empty child of an or holder
+ *
+ * @param {Function} lookupFn
+ * @param {Object} or
+ * @returns {Object}
+ */
+function getFirstNonEmptyChild(lookupFn: LookupFunction, or: Or) {
+  return or.children.reduce((acc, child) => {
+    // Shortcut to avoid calling lookupFn
+    if (acc) {
+      return acc;
+    }
+
+    const value = lookupFn(child.name);
+
+    if (value != null && value !== '') {
+      return child;
+    } else {
+      return acc;
+    }
+  }, null);
+}
+
+/**
  * Unmarshal a given configuration object
  *
  * @param {Function} lookupFn
@@ -55,32 +79,18 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
   const keys = Object.keys(unmarshaller);
 
   const res = keys.reduce((acc, key) => {
-    const {parser, name, type, defaultValue, children, of} = unmarshaller[key];
-
-    let value;
-
-    if (type === 'or') {
-      value = children.reduce((acc, child) => {
-        // Shortcut to avoid calling lookupFn
-        if (acc) {
-          return acc;
-        }
-
-        const value = lookupFn(child.name);
-
-        if (value != null && value !== '') {
-          return value;
-        } else {
-          return acc;
-        }
-      }, null);
-    } else {
-      value = lookupFn(name);
+    if (unmarshaller[key].type === 'or') {
+      unmarshaller[key] = getFirstNonEmptyChild(lookupFn, unmarshaller[key]);
     }
+
+    const {parser, name, type, defaultValue, children, of} = unmarshaller[key];
+    let value;
 
     if (type === 'holder') {
       acc[key] = unmarshal(lookupFn, children);
       return acc;
+    } else {
+      value = lookupFn(name);
     }
 
     if (value !== undefined && value !== null) {

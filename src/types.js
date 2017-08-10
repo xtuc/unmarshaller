@@ -20,6 +20,11 @@ declare type Holder = {
   type: 'holder'
 };
 
+declare type Or = {
+  children: Children,
+  type: 'or'
+};
+
 declare type Children = {
   [string]: Child | Holder
 };
