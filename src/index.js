@@ -51,13 +51,12 @@ function getFirstNonEmptyChild(lookupFn: LookupFunction, or: Or) {
     }
 
     const value = lookupFn(child.name);
-
-    if (value != null && value !== '') {
+    if (Boolean(value)) {
       return child;
-    } else {
-      return acc;
     }
-  }, null);
+
+    return acc;
+  }, null) || or.children[0];
 }
 
 /**
@@ -75,6 +74,9 @@ function unmarshal(lookupFn: LookupFunction, unmarshaller: Object) {
   if (typeof unmarshaller !== 'object') {
     throw new Error(`unmarshaller must be an object, ${typeof unmarshaller} given`);
   }
+
+  // clone the unmarshaller object to prevent mutation related errors
+  unmarshaller = {...unmarshaller};
 
   const keys = Object.keys(unmarshaller);
 
