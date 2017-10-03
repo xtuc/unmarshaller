@@ -19,7 +19,7 @@
     "babel-register": "^6.24.0",
     "chai": "^4.0.2",
     "flow-bin": "^0.56.0",
-    "mocha": "^3.2.0"
+    "mocha": "^4.0.0"
   },
   "repository": {
     "type": "git",
